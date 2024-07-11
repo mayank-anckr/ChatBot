@@ -35,6 +35,12 @@ wss.on("connection", (ws) => {
   console.log("A new client connected!");
   ws.on("message", async (message) => {
     console.log("Received", JSON.stringify(message));
+    const messageStringify = JSON.stringify(message);
+    const buffer = Buffer.from(messageStringify);
+
+    // Convert Buffer to string
+    const jsonString = buffer.toString("utf8");
+    console.log(jsonString);
     // const changeMessage = JSON.parse(message.toString());
     // console.log("changeMessage", changeMessage);
     // const reply = await aiResponseGenerator(changeMessage);
