@@ -47,7 +47,7 @@ wss.on("connection", (ws) => {
     // });
   });
 
-  ws.send(reply);
+  ws.send("Hello sir It is ai response");
 
   ws.on("close", () => {
     console.log("Client has disconnected.");
