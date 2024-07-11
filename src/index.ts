@@ -34,7 +34,7 @@ app.use("/api", routes);
 wss.on("connection", (ws) => {
   console.log("A new client connected!");
   ws.on("message", async (message) => {
-    console.log("Received: %s", message[0]);
+    console.log("Received", JSON.stringify(message));
     // const changeMessage = JSON.parse(message.toString());
     // console.log("changeMessage", changeMessage);
     // const reply = await aiResponseGenerator(changeMessage);
