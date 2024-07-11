@@ -38,14 +38,16 @@ wss.on("connection", (ws) => {
     console.log("Received: %s", message);
 
     // Broadcast the message to all connected clients
-    wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        console.log("here to send the message to client");
-        client.send("Hello sir It is ai response");
-        console.log("Client needs to check the response");
-      }
-    });
+    // wss.clients.forEach((client) => {
+    //   if (client !== ws && client.readyState === WebSocket.OPEN) {
+    //     console.log("here to send the message to client");
+    //     client.send("Hello sir It is ai response");
+    //     console.log("Client needs to check the response");
+    //   }
+    // });
   });
+
+  ws.send(reply);
 
   ws.on("close", () => {
     console.log("Client has disconnected.");
