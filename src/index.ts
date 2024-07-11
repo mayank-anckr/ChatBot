@@ -34,12 +34,12 @@ app.use("/api", routes);
 wss.on("connection", (ws) => {
   console.log("A new client connected!");
   ws.on("message", async (message) => {
-    console.log("Received", JSON.stringify(message));
+    console.log("Received", message);
     const messageStringify = JSON.stringify(message);
-    const buffer = Buffer.from(messageStringify);
+    const buffer = Buffer.from(messageStringify["data"]);
 
     // Convert Buffer to string
-    const jsonString = buffer.toString("utf8");
+    const jsonString = buffer.toString("utf-8");
     console.log(jsonString);
     // const changeMessage = JSON.parse(message.toString());
     // console.log("changeMessage", changeMessage);
