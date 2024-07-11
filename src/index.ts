@@ -34,12 +34,12 @@ app.use("/api", routes);
 wss.on("connection", (ws) => {
   console.log("A new client connected!");
   ws.on("message", async (message) => {
-    console.log("Received: %s", message);
-    const changeMessage = JSON.parse(message.toString());
-    console.log("changeMessage", changeMessage);
-    const reply = await aiResponseGenerator(changeMessage);
-    console.log("reply", reply);
-    ws.send(reply);
+    console.log("Received: %s", message[0]);
+    // const changeMessage = JSON.parse(message.toString());
+    // console.log("changeMessage", changeMessage);
+    // const reply = await aiResponseGenerator(changeMessage);
+    // console.log("reply", reply);
+    // ws.send(reply);
   });
 
   ws.on("close", () => {
