@@ -33,19 +33,12 @@ app.use("/api", routes);
 
 wss.on("connection", (ws) => {
   console.log("A new client connected!");
-  ws.send("Welcome New Client!");
   ws.on("message", async (message) => {
     console.log("Received: %s", message);
-
-    // Broadcast the message to all connected clients
-    // wss.clients.forEach((client) => {
-    //   if (client !== ws && client.readyState === WebSocket.OPEN) {
-    //     console.log("here to send the message to client");
-    //     client.send("Hello sir It is ai response");
-    //     console.log("Client needs to check the response");
-    //   }
-    // });
-    const reply = await aiResponseGenerator(message.toString());
+    const changeMessage = JSON.parse(message.toString());
+    console.log("changeMessage", changeMessage);
+    const reply = await aiResponseGenerator(changeMessage);
+    console.log("reply", reply);
     ws.send(reply);
   });
 

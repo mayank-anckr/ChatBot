@@ -4,13 +4,15 @@ import sequelizeInstance from "./index";
 class Chat extends Model {
   public id!: number;
   public userId!: string;
-  public messages!: JSON;
+  public request!: string;
+  public response!: string;
 }
 
 Chat.init(
   {
     userId: DataTypes.STRING,
-    messages: DataTypes.JSON,
+    request: DataTypes.STRING,
+    response: DataTypes.STRING,
   },
   {
     sequelize: sequelizeInstance,

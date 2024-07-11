@@ -12,8 +12,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      messages: {
-        type: Sequelize.JSON,
+      request: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      response: {
+        type: Sequelize.STRING,
         allowNull: true,
       },
       createdAt: {
