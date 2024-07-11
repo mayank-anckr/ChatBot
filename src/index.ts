@@ -4,6 +4,7 @@ import http from "http";
 import WebSocket from "ws";
 import routes from "./app/route/ai.route";
 import cors from "cors";
+import { aiResponseGenerator } from "./app/helper/aigeneratedResponse";
 
 const app = express();
 const server = http.createServer(app);
@@ -33,8 +34,7 @@ app.use("/api", routes);
 wss.on("connection", (ws) => {
   console.log("A new client connected!");
   ws.send("Welcome New Client!");
-
-  ws.on("message", (message) => {
+  ws.on("message", async (message) => {
     console.log("Received: %s", message);
 
     // Broadcast the message to all connected clients
@@ -45,9 +45,9 @@ wss.on("connection", (ws) => {
     //     console.log("Client needs to check the response");
     //   }
     // });
+    const reply = await aiResponseGenerator(message.toString());
+    ws.send(reply);
   });
-
-  ws.send("Hello sir It is ai response");
 
   ws.on("close", () => {
     console.log("Client has disconnected.");
