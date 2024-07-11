@@ -37,13 +37,10 @@ wss.on("connection", (ws) => {
     console.log("Received", message);
 
     // Convert Buffer to string
-    const jsonString = message.toString("utf-8");
-    console.log(jsonString, "jsonString");
-    // const changeMessage = JSON.parse(message.toString());
-    // console.log("changeMessage", changeMessage);
-    // const reply = await aiResponseGenerator(changeMessage);
-    // console.log("reply", reply);
-    // ws.send(reply);
+    const jsonString = JSON.parse(message.toString("utf-8"));
+    const reply = await aiResponseGenerator(jsonString);
+    console.log("reply", reply);
+    ws.send(reply);
   });
 
   ws.on("close", () => {
