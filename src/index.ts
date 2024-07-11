@@ -40,7 +40,9 @@ wss.on("connection", (ws) => {
     // Broadcast the message to all connected clients
     wss.clients.forEach((client) => {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
+        console.log("here to send the message to client");
         client.send("Hello sir It is ai response");
+        console.log("Client needs to check the response");
       }
     });
   });
