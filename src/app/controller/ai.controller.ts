@@ -22,7 +22,8 @@ export const chatfn = async (req: Request, res: Response) => {
       offset: offset,
       order: [["createdAt", "DESC"]],
     });
-    return res.status(200).json(rows);
+    const reversedRows = rows.reverse();
+    return res.status(200).json(reversedRows);
   } catch (error) {
     return res.status(500).json(error);
   }
