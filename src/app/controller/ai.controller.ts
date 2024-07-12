@@ -1,7 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import { wss } from "../../index";
 import Chat from "../../models/chat.model";
 
 dotenv.config();
@@ -13,32 +12,18 @@ const model = genAI.getGenerativeModel({
 
 export const chatfn = async (req: Request, res: Response) => {
   try {
-    const { message, userId } = req.body;
-    const result = await model.generateContent(message);
-    if (!result || !result.response || !result.response.candidates) {
-      return res.status(400).json({ message: "No result found" });
-    }
-
-    console.log(JSON.stringify(result));
-
-    const reply =
-      result?.response?.candidates[0]?.content?.parts[0]?.text?.replace(
-        /\n/g,
-        ""
-      ) || "No reply available";
-
-    await Chat.create({
-      userId: userId,
-      request: message,
-      response: reply,
+    const { userId } = req.params;
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const offset = (page - 1) * 10;
+    const limit = 10;
+    const { count, rows } = await Chat.findAndCountAll({
+      where: { userId },
+      limit: limit,
+      offset: offset,
+      order: [["createdAt", "DESC"]],
     });
-    console.log("insertion completed");
-
-    return res.status(200).json({
-      reply,
-    });
+    return res.status(200).json(rows);
   } catch (error) {
-    console.log(error);
     return res.status(500).json(error);
   }
 };

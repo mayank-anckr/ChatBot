@@ -28,10 +28,8 @@ export async function aiResponseGenerator(request: {
       request: request.message,
       response: reply,
     });
-    console.log("insertion completed");
     return reply;
   } catch (error) {
-    console.log("error", error);
     throw error;
   }
 }

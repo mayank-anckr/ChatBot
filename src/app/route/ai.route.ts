@@ -4,6 +4,6 @@ import { chatfn } from "../controller/ai.controller";
 
 const router = Router();
 
-router.post("/chat", chatfn);
+router.get("/chat/:userId", chatfn);
 
 export default router;

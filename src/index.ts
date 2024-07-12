@@ -32,14 +32,10 @@ app.options(
 app.use("/api", routes);
 
 wss.on("connection", (ws) => {
-  console.log("A new client connected!");
   ws.on("message", async (message) => {
-    console.log("Received", message);
-
     // Convert Buffer to string
     const jsonString = JSON.parse(message.toString("utf-8"));
     const reply = await aiResponseGenerator(jsonString);
-    console.log("reply", reply);
     ws.send(reply);
   });
 
