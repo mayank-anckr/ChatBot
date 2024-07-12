@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import { wss } from "../../index";
+import Chat from "../../models/chat.model";
 
 dotenv.config();
 
@@ -12,22 +13,26 @@ const model = genAI.getGenerativeModel({
 
 export const chatfn = async (req: Request, res: Response) => {
   try {
-    const { message } = req.body;
+    const { message, userId } = req.body;
     const result = await model.generateContent(message);
     if (!result || !result.response || !result.response.candidates) {
       return res.status(400).json({ message: "No result found" });
     }
 
-    const reply =
-      result.response.candidates[0].content.parts[0].text?.replace(/\n/g, "") ||
-      "No reply available";
+    console.log(JSON.stringify(result));
 
-    // Send the reply to all connected WebSocket clients
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(reply);
-      }
+    const reply =
+      result?.response?.candidates[0]?.content?.parts[0]?.text?.replace(
+        /\n/g,
+        ""
+      ) || "No reply available";
+
+    await Chat.create({
+      userId: userId,
+      request: message,
+      response: reply,
     });
+    console.log("insertion completed");
 
     return res.status(200).json({
       reply,

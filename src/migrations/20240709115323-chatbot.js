@@ -7,17 +7,19 @@ module.exports = {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
       },
       userId: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       request: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true,
       },
       response: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: true,
       },
       createdAt: {

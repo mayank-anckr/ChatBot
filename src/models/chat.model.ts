@@ -7,12 +7,12 @@ class Chat extends Model {
   public request!: string;
   public response!: string;
 }
-
+console.log(sequelizeInstance);
 Chat.init(
   {
     userId: DataTypes.STRING,
-    request: DataTypes.STRING,
-    response: DataTypes.STRING,
+    request: DataTypes.TEXT,
+    response: DataTypes.TEXT,
   },
   {
     sequelize: sequelizeInstance,
